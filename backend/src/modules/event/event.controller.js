@@ -6,19 +6,23 @@ const eventmodel = require("./event.model");
 const eventService = require("./event.service");
 
 class eventController {
+
+  //create for creating an event
   create = async (req, res, next) => {
     try {
       const data = req.body;
-      //console.log(data);
+      console.log(data);
 
-      const imageData = await uploadImage(
-        "./public/uploads/event/" + req.file.filename
-      ); //gives image url and public id
-      data.image = imageData.url;
-      data.public_id = imageData.public_id;
+      if (req.file) {
+        const imageData = await uploadImage(
+          "./public/uploads/event/" + req.file.filename
+        ); //gives image url and public id
+        data.image = imageData.url;
+        data.public_id = imageData.public_id;
 
-      //delete img from local
-      filedelete("./public/uploads/event/" + req.file.filename);
+        //delete img from local
+        filedelete("./public/uploads/event/" + req.file.filename);
+      }
       data.createdBy = req.authUser._id;
 
       const event = await eventService.eventcreate(data); // event creation
@@ -35,6 +39,8 @@ class eventController {
     }
   };
 
+
+//list for listing all events of organization
   details = async (req, res, next) => {
     try {
       const page = +req.query.page || 1;
@@ -68,6 +74,7 @@ class eventController {
     }
   };
 
+//show for showing event details of a specific event
   show = async (req, res, next) => {
     try {
       const id = req.params.id;
@@ -91,6 +98,7 @@ class eventController {
     }
   };
 
+//update for updating event
   update = async (req, res, next) => {
     try {
       console.log("id", req.authUser._id);
@@ -125,6 +133,7 @@ class eventController {
     }
   };
 
+//delete for deleting event
   delete = async (req, res, next) => {
     try {
       const { id, public_id } = req.params;
@@ -152,6 +161,8 @@ class eventController {
       next(exception);
     }
   };
+
+//homepageevent for listing events in homepage
   homepageevent = async (req, res, next) => {
     try {
       const list = await eventService.listdata({
@@ -173,6 +184,7 @@ class eventController {
     }
   };
 
+//reventregister for registering user for event 
   eventregister = async (req, res, next) => {
     try {
       const { eventId, userId } = req.params; // Get eventId and userId from route params
@@ -211,13 +223,14 @@ class eventController {
     }
   };
 
+//registeredEvents for listing events registered by user
   registeredEvents = async (req, res, next) => {
     try {
       const { userId } = req.params;
       const registeredEvents = await eventService.getRegisteredEvents(userId);
 
       res.json({
-        result: registeredEvents,
+        result: registeredEvents, 
         message: "Registered events",
         meta: null,
       });
