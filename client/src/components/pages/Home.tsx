@@ -3,7 +3,7 @@ import UserDashboard from "./UserDashboard";
 import { useState } from "react";
 
 const Home = () => {
-  const [userType, setUserType] = useState(false);
+  const [userType, setUserType] = useState(true);
   return <div>{userType ? <UserDashboard /> : <OrgDashboard />}</div>;
 };
 

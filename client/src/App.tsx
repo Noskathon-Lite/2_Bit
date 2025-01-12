@@ -8,27 +8,41 @@ import { Landing } from "./components/pages/Landing";
 import AboutUs from "./components/pages/AboutUs";
 import Contact from "./components/pages/Contact";
 import EventDetail from "./components/EventDetail";
+import PrivateRoute from "./PrivateRoute";
 
 const App = () => {
-  
   return (
     <Router>
       <Routes>
-        <Route path="/home" element={<Home />} />
-        <Route path="/" element={<Landing/>} />
+        <Route path="/" element={<Landing />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/event/:id" element={<EventDetail />} />
-
         <Route path="/login" element={<Login />} />
-        <Route path="/create-event" element={<CreateEventForm />} />
         <Route path="/register" element={<Register />} />
+
+        {/* Private Routes */}
+        <Route
+          path="/create-event"
+          element={
+            <PrivateRoute>
+              <CreateEventForm />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/home"
+          element={
+            <PrivateRoute>
+              <Home />
+            </PrivateRoute>
+          }
+        />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
 };
-
 
 export default App;
