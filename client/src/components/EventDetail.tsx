@@ -4,34 +4,45 @@ import { useParams } from "react-router-dom";
 const EventDetail: React.FC = () => {
   const { eventId } = useParams<{ eventId: string }>();
 
-  // Sample event data (replace with actual data fetching logic)
-  const event = {
-    id: eventId,
-    title: "Sample Event",
-    description:
-      "This is a detailed description of the event. It covers all the important aspects and what attendees can expect.",
-    location: "123 Event St, City, Country",
-    date: "January 1, 2025",
-    time: "10:00 AM - 4:00 PM",
-    organizer: {
-      name: "Organizer Name",
-      accountLink: "/organizers/1", // Link to the organizer's account
-    },
-    image: "https://via.placeholder.com/600x300", // Placeholder image
-    tags: ["Workshop", "Networking", "Technology"],
+  // Define the types for the event object
+interface EventData {
+  id: number;
+  title: string;
+  description: string;
+  location: string;
+  date: string;
+  time: string;
+  organizer: {
+    name: string;
+    accountLink: string;
   };
+  image: string;
+  tags: string[];
+}
 
-  const handleRSVP = () => {
-    // Logic for RSVP (e.g., API call)
-    alert("You have RSVP'd for the event!");
-  };
+// Constant event data (fixed, will not change)
+const event: EventData = {
+  id: 1,
+  title: "Sample Event",
+  description: "This is a detailed description of the event. It covers all the important aspects and what attendees can expect.",
+  location: "123 Event St, City, Country",
+  date: "January 1, 2025", // Example date (YYYY-MM-DD)
+  time: "10:00 AM - 4:00 PM", // Example start time (HH:MM AM/PM)
+  organizer: {
+    name: "Organizer Name",
+    accountLink: "/organizers/1", // Link to organizer's page
+  },
+  image: "https://via.placeholder.com/600x300", // Placeholder image
+  tags: ["Workshop", "Networking", "Technology"],
+};
 
+//handleRegister function
   const handleRegister = () => {
     // Logic for registration (e.g., API call)
     alert("You have registered for the event!");
   };
 
-  const handleAddToCalendar = () => {
+  const handleAddToCalendar = (event:EventData) => {
     // Logic to add event to calendar
     const eventDetails = {
       title: event.title,
@@ -67,12 +78,19 @@ const EventDetail: React.FC = () => {
       <p className="mt-2 text-gray-700">{event.description}</p>
 
       <div className="mt-4 flex items-center">
-        <div className="mr-4">
+        <div className="mr-4 grid grid-cols-2 gap-4">
+          <div>
           <h2 className="text-xl font-semibold">Date</h2>
-          <p className="text-gray-600 flex items-center">
-            {event.date}
-          </p>
+          <p className="text-gray-600 flex items-center">{event.date}</p>
+          </div>
+            <button
+                  onClick={() => handleAddToCalendar(event)}
+                  className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors"
+                >
+                  Add to Calendar
+        </button>
         </div>
+      
       </div>
 
       <div className="mt-4">
