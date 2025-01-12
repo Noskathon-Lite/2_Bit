@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 mongoose
   .connect(process.env.MONGODB_URL, {
-    dbName: process.env.DBNAME, 
+    dbName: process.env.DBNAME,
     autoCreate: true,
     autoIndex: true,
   })

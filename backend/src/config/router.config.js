@@ -1,9 +1,10 @@
 const router = require("express").Router();
+const userrouter = require("../modules/user/user.route");
+const authrouter = require("../modules/auth/auth.route");
+const eventrouter = require("../modules/event/event.route");
 
-const userRouter = require("../module/user/user.router");
-// const authRouter = require("../module/auth/auth.router");
-
-router.use("/user", userRouter);
-// router.use("/auth", authRouter);    
+router.use("/user", userrouter);
+router.use("/auth", authrouter);
+router.use("/event", eventrouter);
 
 module.exports = router;

@@ -32,9 +32,6 @@ const userSchema = new mongoose.Schema(
       enum: [...Object.values(userrole)],
       default: userrole.STUDENT,
     },
-    college: {
-      type: String,
-    },
     status: {
       type: String,
       enum: [...Object.values(statustype)],
@@ -45,7 +42,6 @@ const userSchema = new mongoose.Schema(
     image: String,
     forgetToken: String,
     forgetFor: Date,
-
     createdBy: {
       type: mongoose.Types.ObjectId,
       ref: "User",
