@@ -21,10 +21,8 @@ const Header: React.FC = () => {
 
         {/* Navigation Links */}
         <div className="flex space-x-4">
-          <Link to="/" className="text-white hover:underline">
-            Home
-          </Link>
-          <Link to="/about" className="text-white hover:underline">
+
+          <Link to="/aboutus" className="text-white hover:underline">
             About Us
           </Link>
           <Link to="/contact" className="text-white hover:underline">

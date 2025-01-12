@@ -11,7 +11,7 @@ const Hero: React.FC = () => {
         Your one-stop destination for all campus happenings!
       </p>
       <Link
-        to="/eventDetail"
+        to="/login"
         className="mt-6 inline-block bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition"
       >
         Exlpore Events

@@ -41,7 +41,7 @@ const EventList: React.FC = () => {
             <p className="text-gray-600">{event.date}</p>
             <p className="mt-2">{event.description}</p>
             <button
-              onClick={() => navigate(`/events/${event.id}`)} // Use useNavigate for redirection
+              onClick={() => navigate(`/event/${event.id}`)} // Use useNavigate for redirection
               className="mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition duration-200"
             >
               Learn More
