@@ -17,13 +17,15 @@ import { Link } from "react-router-dom";
 
 const Register = () => {
   const [userType, setUserType] = useState("");
-  const [formData, setFormData] = useState({
+  const [studentData, setStudentData] = useState({
     email: "",
     password: "",
     confirmPassword: "",
     firstName: "",
     lastName: "",
     studentId: "",
+  });
+  const [orgData, setOrgData] = useState({
     orgName: "",
     orgDescription: "",
     orgEmail: "",
@@ -36,10 +38,17 @@ const Register = () => {
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [id]: value,
-    }));
+    if (userType === "user") {
+      setStudentData((prev) => ({
+        ...prev,
+        [id]: value,
+      }));
+    } else if (userType === "organization") {
+      setOrgData((prev) => ({
+        ...prev,
+        [id]: value,
+      }));
+    }
   };
 
   const validateEmail = (email) => {
@@ -47,62 +56,81 @@ const Register = () => {
     return regex.test(email);
   };
 
+  const handleStudentSubmit = async () => {
+    if (
+      !studentData.email ||
+      !studentData.password ||
+      !studentData.confirmPassword ||
+      !studentData.firstName ||
+      !studentData.lastName ||
+      !studentData.studentId
+    ) {
+      setError("Please fill in all required fields");
+      return false;
+    }
+
+    if (!validateEmail(studentData.email)) {
+      setError("Please enter a valid email address");
+      return false;
+    }
+
+    if (studentData.password.length < 8) {
+      setError("Password must be at least 8 characters long");
+      return false;
+    }
+
+    if (studentData.password !== studentData.confirmPassword) {
+      setError("Passwords do not match");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleOrgSubmit = async () => {
+    if (
+      !orgData.orgName ||
+      !orgData.orgEmail ||
+      !orgData.orgPhone ||
+      !orgData.advisorName ||
+      !orgData.advisorEmail
+    ) {
+      setError("Please fill in all required fields");
+      return false;
+    }
+
+    if (!validateEmail(orgData.orgEmail)) {
+      setError("Please enter a valid email address");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    // Common validation
+    let isValid = false;
+    setLoading(true);
+
     if (userType === "user") {
-      if (
-        !formData.email ||
-        !formData.password ||
-        !formData.confirmPassword ||
-        !formData.firstName ||
-        !formData.lastName ||
-        !formData.studentId
-      ) {
-        setError("Please fill in all required fields");
-        return;
-      }
+      isValid = await handleStudentSubmit();
     } else if (userType === "organization") {
-      if (
-        !formData.orgName ||
-        !formData.orgEmail ||
-        !formData.orgPhone ||
-        !formData.advisorName ||
-        !formData.advisorEmail
-      ) {
-        setError("Please fill in all required fields");
-        return;
-      }
+      isValid = await handleOrgSubmit();
     }
 
-    // Email validation
-    const emailToCheck =
-      userType === "user" ? formData.email : formData.orgEmail;
-    if (!validateEmail(emailToCheck)) {
-      setError("Please enter a valid email address");
+    if (!isValid) {
+      setLoading(false);
       return;
     }
 
-    if (userType === "user") {
-      // Password validation
-      if (formData.password.length < 8) {
-        setError("Password must be at least 8 characters long");
-        return;
-      }
-      if (formData.password !== formData.confirmPassword) {
-        setError("Passwords do not match");
-        return;
-      }
-    }
-
-    setLoading(true);
-
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      // Here you would make your actual API call
-      console.log("Registration attempted with:", { userType, formData });
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API call
+      console.log("Registration attempted with:", {
+        userType,
+        data: userType === "user" ? studentData : orgData,
+      });
     } catch (err) {
       setError("An error occurred during registration");
     } finally {
@@ -117,7 +145,7 @@ const Register = () => {
           <Label htmlFor="firstName">Name *</Label>
           <Input
             id="firstName"
-            value={formData.firstName}
+            value={studentData.firstName}
             onChange={handleInputChange}
           />
         </div>
@@ -129,7 +157,7 @@ const Register = () => {
           id="email"
           type="email"
           placeholder="you@university.edu"
-          value={formData.email}
+          value={studentData.email}
           onChange={handleInputChange}
         />
       </div>
@@ -138,7 +166,7 @@ const Register = () => {
         <Label htmlFor="studentId">Address</Label>
         <Input
           id="studentId"
-          value={formData.studentId}
+          value={studentData.studentId}
           onChange={handleInputChange}
         />
       </div>
@@ -148,7 +176,7 @@ const Register = () => {
         <Input
           id="password"
           type="password"
-          value={formData.password}
+          value={studentData.password}
           onChange={handleInputChange}
         />
       </div>
@@ -158,7 +186,7 @@ const Register = () => {
         <Input
           id="confirmPassword"
           type="password"
-          value={formData.confirmPassword}
+          value={studentData.confirmPassword}
           onChange={handleInputChange}
         />
       </div>
@@ -171,7 +199,7 @@ const Register = () => {
         <Label htmlFor="orgName">Organization Name *</Label>
         <Input
           id="orgName"
-          value={formData.orgName}
+          value={orgData.orgName}
           onChange={handleInputChange}
         />
       </div>
@@ -180,7 +208,7 @@ const Register = () => {
         <Label htmlFor="orgDescription">Organization Description</Label>
         <Textarea
           id="orgDescription"
-          value={formData.orgDescription}
+          value={orgData.orgDescription}
           onChange={handleInputChange}
           placeholder="Tell us about your organization..."
         />
@@ -191,7 +219,7 @@ const Register = () => {
         <Input
           id="orgEmail"
           type="email"
-          value={formData.orgEmail}
+          value={orgData.orgEmail}
           onChange={handleInputChange}
         />
       </div>
@@ -201,7 +229,7 @@ const Register = () => {
         <Input
           id="orgPhone"
           type="tel"
-          value={formData.orgPhone}
+          value={orgData.orgPhone}
           onChange={handleInputChange}
         />
       </div>
@@ -210,7 +238,7 @@ const Register = () => {
         <Label htmlFor="advisorName">Faculty Advisor Name *</Label>
         <Input
           id="advisorName"
-          value={formData.advisorName}
+          value={orgData.advisorName}
           onChange={handleInputChange}
         />
       </div>
@@ -220,7 +248,7 @@ const Register = () => {
         <Input
           id="advisorEmail"
           type="email"
-          value={formData.advisorEmail}
+          value={orgData.advisorEmail}
           onChange={handleInputChange}
         />
       </div>
@@ -276,8 +304,8 @@ const Register = () => {
       <CardFooter className="flex justify-center">
         <p className="text-sm">
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-600 hover:underline">
-            Sign in
+          <Link to="/login" className="text-primary hover:underline">
+            Login
           </Link>
         </p>
       </CardFooter>
