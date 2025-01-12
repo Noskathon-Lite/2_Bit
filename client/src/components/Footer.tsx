@@ -96,7 +96,7 @@ const Footer: React.FC = () => {
         </div>
         <div className="mt-6 md:mt-0">
           <p className="text-sm mb-4">
-            © 2023 Campus Events. All rights reserved.
+            © 2025 Campus Events. All rights reserved.
           </p>
           <p className="text-sm">Follow us on social media:</p>
           <div className="flex space-x-6 mt-2">

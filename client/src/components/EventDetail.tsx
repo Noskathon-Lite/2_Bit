@@ -69,7 +69,9 @@ const EventDetail: React.FC = () => {
       <div className="mt-4 flex items-center">
         <div className="mr-4">
           <h2 className="text-xl font-semibold">Date</h2>
-          <p className="text-gray-600 flex items-center">{event.date}</p>
+          <p className="text-gray-600 flex items-center">
+            {event.date}
+          </p>
         </div>
       </div>
 
