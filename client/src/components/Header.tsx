@@ -15,10 +15,14 @@ const Header: React.FC<HeaderProps> = ({ showLoginButton = true }) => {
             alt="Campus Events Logo"
             className="h-10 w-15 mr-2"
           />
-          <h1 className="text-2xl font-bold">Campus Events</h1>
+          <h1 className="text-2xl font-bold">
+            <Link to="/" className="text-white hover:underline">
+              Campus Events
+            </Link>
+          </h1>
         </div>
         <div className="flex space-x-4">
-          <Link to="/" className="text-white hover:underline">
+          <Link to="/home" className="text-white hover:underline">
             Home
           </Link>
           <Link to="/aboutus" className="text-white hover:underline">

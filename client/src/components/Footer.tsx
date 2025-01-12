@@ -54,7 +54,7 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="font-semibold text-lg mb-4">Support</h3>
             <a
-              href="#contact"
+              href="/contact"
               className="block hover:underline hover:text-green-300 transition duration-200"
             >
               Contact Us
