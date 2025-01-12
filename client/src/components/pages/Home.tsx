@@ -1,6 +1,5 @@
-import OrgDashboard from "./OrgDashboard";
-import UserDashboard from "./UserDashboard";
-import { useState } from "react";
+import React from "react";
+import Header from "../Header";
 
 const Home = () => {
   const [userType, setUserType] = useState(true);

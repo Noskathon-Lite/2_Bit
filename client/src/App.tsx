@@ -9,6 +9,7 @@ import AboutUs from "./components/pages/AboutUs";
 import Contact from "./components/pages/Contact";
 import EventDetail from "./components/EventDetail";
 import PrivateRoute from "./PrivateRoute";
+import UserEventRegistration from "./components/pages/UserEventRegistration";
 
 const App = () => {
   return (
