@@ -21,6 +21,10 @@ const App = () => {
         <Route path="/event/:id" element={<EventDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route
+          path="/user-event-registration"
+          element={<UserEventRegistration />}
+        />
 
         {/* Private Routes */}
         <Route
