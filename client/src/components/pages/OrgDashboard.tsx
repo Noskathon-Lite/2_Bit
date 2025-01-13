@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Edit, Trash2, Users, Search, Filter } from "lucide-react";
+import { Calendar, Edit, Trash2, Users } from "lucide-react";
 import { LayoutDashboard, Settings, PieChart, X } from "lucide-react";
 import { Link } from "react-router-dom";
 

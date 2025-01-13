@@ -1,24 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-const CreateEventForm = () => {
-  const [formData, setFormData] = useState<{
-    eventName: string;
-    eventDescription: string;
-    eventDate: string;
-    eventTime: string;
-    eventLocation: string;
-    eventType: string;
-    eventOrganizer: string;
-    eventContactEmail: string;
-    eventWebsite: string;
-    eventPoster: File | null;
-    eventTags: string[]; // State for selected tags
-    tagInput: string; // For typing new tags
-  }>({
+const CreateEventForm = ({ eventData, onSubmit }) => {
+  const [formData, setFormData] = useState({
     eventName: "",
     eventDescription: "",
     eventDate: "",
@@ -29,8 +16,8 @@ const CreateEventForm = () => {
     eventContactEmail: "",
     eventWebsite: "",
     eventPoster: null,
-    eventTags: [], // State for selected tags
-    tagInput: "", // For typing new tags
+    eventTags: [],
+    tagInput: "",
   });
 
   const predefinedTags = [
@@ -42,6 +29,26 @@ const CreateEventForm = () => {
     "Career",
     "Other",
   ];
+
+  // If eventData exists, set formData with the event data (for editing)
+  useEffect(() => {
+    if (eventData) {
+      setFormData({
+        eventName: eventData.eventName || "",
+        eventDescription: eventData.eventDescription || "",
+        eventDate: eventData.eventDate || "",
+        eventTime: eventData.eventTime || "",
+        eventLocation: eventData.eventLocation || "",
+        eventType: eventData.eventType || "workshop",
+        eventOrganizer: eventData.eventOrganizer || "",
+        eventContactEmail: eventData.eventContactEmail || "",
+        eventWebsite: eventData.eventWebsite || "",
+        eventPoster: eventData.eventPoster || null,
+        eventTags: eventData.eventTags || [],
+        tagInput: "", // Reset tag input
+      });
+    }
+  }, [eventData]);
 
   const handleTagInputChange = (e) => {
     const { value } = e.target;
@@ -77,14 +84,13 @@ const CreateEventForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    // Handle form submission logic (e.g., send data to the backend)
+    onSubmit(formData); // Call the onSubmit function (either create or update)
   };
 
   return (
-    <div className="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+    <div className="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-lg shadow-xl">
       <h1 className="text-2xl font-semibold text-gray-800 mb-6">
-        Register Your Campus Event
+        {eventData ? "Edit Your Campus Event" : "Register Your Campus Event"}
       </h1>
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Event Name */}
@@ -251,7 +257,7 @@ const CreateEventForm = () => {
         {/* Event Poster */}
         <div className="space-y-2">
           <Label htmlFor="event_poster">Event Poster (Optional)</Label>
-          <input
+          <Input
             type="file"
             id="event_poster"
             name="eventPoster"
@@ -261,14 +267,9 @@ const CreateEventForm = () => {
         </div>
 
         {/* Submit Button */}
-        <div>
-          <Button
-            type="submit"
-            className="w-full bg-blue-600 text-white p-3 rounded-md shadow-sm hover:bg-blue-700"
-          >
-            Submit Event
-          </Button>
-        </div>
+        <Button type="submit" className="w-full text-white p-3 rounded-md shadow-md">
+          {eventData ? "Update Event" : "Create Event"}
+        </Button>
       </form>
     </div>
   );
