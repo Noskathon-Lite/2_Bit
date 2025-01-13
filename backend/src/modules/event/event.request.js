@@ -16,7 +16,7 @@ const eventcreateDTO = Joi.object({
   startDate: Joi.date().required(),
   endDate: Joi.date().required(),
 
-  tag: Joi.array().items(Joi.string()).optional().default(["all"]),
+  tags: Joi.array().items(Joi.string()).optional().default(["all"]),
 
   
 

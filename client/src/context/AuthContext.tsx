@@ -1,35 +1,76 @@
-// src/context/AuthContext.tsx
-import React, { createContext, useContext, useState } from "react";
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  ReactNode,
+  useContext,
+} from "react";
+import { getUser } from "@/services/authService"; // Ensure getUser is typed correctly in the service
+import { UserType } from "@/types/types"; // Import UserType from your types
 
-// Define the context type
+// Define the shape of the AuthContext value
 interface AuthContextType {
-  user: any; // Replace `any` with the correct type
-  // login: (email: string, password: string) => Promise<void>;
-  // logout: () => void;
-  setUser: any;
-  isAuthenticated: boolean;
+  user: UserType | null;
+  loading: boolean;
+  authToken: string | null;
+  userType: boolean;
 }
 
-// Create the context with a default value
+// Create the context with default values (initially undefined)
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState<any>(null); // Replace `any` with actual user type
+// Auth provider component
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
+  const [user, setUser] = useState<UserType | null>(null); // User state
+  const [loading, setLoading] = useState(true); // Loading state for user authentication
+  const [authToken, setAuthToken] = useState<string | null>(null); // Store the auth token
+  const [userType, setUserType] = useState<boolean>(false); // User type state
+
+  // Check for an existing token in localStorage
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem("authToken");
+      if (token) {
+        setAuthToken(token);
+        const fetchedUser = await getUser(); // Await the async function if needed
+        if (fetchedUser) {
+          setUser(fetchedUser.result);
+          if (fetchedUser.result.role === "student") {
+            setUserType(true);
+          }
+        } else {
+          setUser(null); // Handle the case where no user is found
+        }
+      } else {
+        setUser(null);
+      }
+      setLoading(false);
+    };
+    fetchUser();
+  }, []);
+
+  // Auth context value
+  const value: AuthContextType = {
+    user,
+    loading,
+    authToken,
+    userType,
+  };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated: !!user, setUser }}>
-      {children}
+    <AuthContext.Provider value={value}>
+      {!loading && children} {/* Render children only when not loading */}
     </AuthContext.Provider>
   );
 };
 
-// Custom hook for consuming AuthContext
-export const useAuth = () => {
+// Custom hook to use Auth context
+export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
-
-export default AuthContext;

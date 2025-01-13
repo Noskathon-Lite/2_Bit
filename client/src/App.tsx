@@ -26,7 +26,7 @@ const App = () => {
         <Route path="/" element={<Landing />} />
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/event/:id" element={<EventDetail />} />
+        <Route path="/event" element={<EventDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/validate/:id" element={<SuccessPage />} />
@@ -39,9 +39,9 @@ const App = () => {
         <Route
           path="/create-event"
           element={
-            // <PrivateRoute>
-            <CreateEventForm />
-            // </PrivateRoute>
+            <PrivateRoute>
+              <CreateEventForm />
+            </PrivateRoute>
           }
         />
         <Route
