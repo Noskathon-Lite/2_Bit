@@ -36,7 +36,7 @@ const eventschema = new mongoose.Schema(
         ref: "User",
       },
     ],
-    tag: {
+    tags: {
       type: [String],
       default: ["all"],
     },
