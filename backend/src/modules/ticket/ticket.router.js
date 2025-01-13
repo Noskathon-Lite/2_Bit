@@ -8,8 +8,11 @@ router.post('/tickets', ticketController.createTicket);
 // Get all tickets
 router.get('/tickets', ticketController.getAllTickets);
 
+// Get all tickets of a event
+router.get('/:id', ticketController.getTicketsByEventId);
+
 // Get a ticket by ID
-router.get('/tickets/:id', ticketController.getTicketById);
+router.get('/ticket/:id', ticketController.getTicketById);
 
 // Update a ticket by ID
 router.put('/tickets/:id', ticketController.updateTicketById);
