@@ -37,9 +37,9 @@ const App = () => {
         <Route
           path="/create-event"
           element={
-            // <PrivateRoute>
-            <CreateEventForm />
-            // </PrivateRoute>
+            <PrivateRoute>
+              <CreateEventForm />
+            </PrivateRoute>
           }
         />
         <Route
