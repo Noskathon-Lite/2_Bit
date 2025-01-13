@@ -13,7 +13,7 @@ router.get("/",eventController.homepageevent)
 
 //protected route for event creation and listing events of organization
 router.route("/")//logincheck,haspermission("organization"),
-    .post(setpath("event"),uploadFile().single(filefiltertype.IMAGE),datavalidator(eventcreateDTO),eventController.create)
+    .post(logincheck,haspermission("organization"),setpath("event"),uploadFile().single(filefiltertype.IMAGE),datavalidator(eventcreateDTO),eventController.create)
     .get(logincheck,haspermission("organization"),eventController.details)
 
 
