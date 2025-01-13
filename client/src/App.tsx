@@ -9,6 +9,13 @@ import AboutUs from "./components/pages/AboutUs";
 import Contact from "./components/pages/Contact";
 import EventDetail from "./components/EventDetail";
 import UserEventRegistration from "./components/pages/UserEventRegistration";
+import FAQ from "./components/pages/FAQ";
+import UserDashboard from "./components/pages/UserDashboard";
+import EventGallery from "./components/pages/EventGallery";
+import UpcomingEvents from "./components/pages/UpcomingEvents";
+import PrivacyPolicy from "./components/pages/PrivacyPolicy";
+import TermsAndConditions from "./components/pages/TermsAndCondition";
+import CookiePolicy from "./components/pages/CookiePolicy";
 
 const App = () => {
   return (
@@ -29,6 +36,13 @@ const App = () => {
         <Route path="/register" element={<Register />} />
 
         <Route path="*" element={<NotFound />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/event-gallery" element={<EventGallery />} />
+        <Route path="/upcoming-events" element={<UpcomingEvents />} />
+        <Route path="/dashboard" element={<UserDashboard />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+        <Route path="/cookie-policy" element={<CookiePolicy />} />
       </Routes>
     </Router>
   );
