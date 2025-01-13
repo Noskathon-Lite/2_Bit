@@ -11,7 +11,7 @@ class eventController {
   create = async (req, res, next) => {
     try {
       const data = req.body;
-      console.log(data);
+      // console.log(data);
 
       if (req.file) {
         const imageData = await uploadImage(
