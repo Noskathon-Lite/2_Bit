@@ -12,7 +12,7 @@ const eventservice = require("./event.service")
 router.get("/",eventController.homepageevent)
 
 //protected route for event creation and listing events of organization
-router.route("/")//logincheck,haspermission("organization"),
+router.route("/")
     .post(logincheck,haspermission("organization"),setpath("event"),uploadFile().single(filefiltertype.IMAGE),datavalidator(eventcreateDTO),eventController.create)
     .get(logincheck,haspermission("organization"),eventController.details)
 

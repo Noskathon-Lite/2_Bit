@@ -37,7 +37,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         const fetchedUser = await getUser(); // Await the async function if needed
         if (fetchedUser) {
           setUser(fetchedUser.result);
-          if (fetchedUser.result.userType === "user") {
+
+          console.log(fetchedUser.result)
+
+          if (fetchedUser.result.role === "organization") {
             setUserType(true);
           }
         } else {
