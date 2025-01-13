@@ -17,6 +17,7 @@ import UpcomingEvents from "./components/pages/UpcomingEvents";
 import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import TermsAndConditions from "./components/pages/TermsAndCondition";
 import CookiePolicy from "./components/pages/CookiePolicy";
+import SuccessPage from "./components/pages/SuccessPage";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/event/:id" element={<EventDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/validate/:id" element={<SuccessPage />} />
         <Route
           path="/user-event-registration"
           element={<UserEventRegistration />}

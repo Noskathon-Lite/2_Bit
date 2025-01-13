@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Calendar, Edit, Trash2, Users } from "lucide-react";
 import { LayoutDashboard, Settings, PieChart, X } from "lucide-react";
 import { Link } from "react-router-dom";
+import Logout from "../Logout";
 
 const sampleEvents = [
   {
@@ -118,6 +119,10 @@ const OrgDashboard = () => {
             <Settings className="h-5 w-5 mr-2" />
             {sidebarOpen && "Settings"}
           </Button>
+          {/* Footer with Logout Button */}
+          <div className="mt-auto py-4">
+            <Logout />
+          </div>
         </nav>
       </div>
     </div>
