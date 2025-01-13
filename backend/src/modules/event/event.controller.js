@@ -11,14 +11,16 @@ class eventController {
       const data = req.body;
       //console.log(data);
 
-      const imageData = await uploadImage(
-        "./public/uploads/event/" + req.file.filename
-      ); //gives image url and public id
-      data.image = imageData.url;
-      data.public_id = imageData.public_id;
+      if (req.file) {
+        const imageData = await uploadImage(
+          "./public/uploads/event/" + req.file.filename
+        ); //gives image url and public id
+        data.image = imageData.url;
+        data.public_id = imageData.public_id;
 
-      //delete img from local
-      filedelete("./public/uploads/event/" + req.file.filename);
+        //delete img from local
+        filedelete("./public/uploads/event/" + req.file.filename);
+      }
       data.createdBy = req.authUser._id;
 
       const event = await eventService.eventcreate(data); // event creation

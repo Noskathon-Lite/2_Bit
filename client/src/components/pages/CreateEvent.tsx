@@ -1,23 +1,274 @@
+// import { useState, useEffect } from "react";
+// import { Label } from "@/components/ui/label";
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
+// import { Textarea } from "@/components/ui/textarea";
+// import { createEvent } from "@/services/eventService";
+
+// const CreateEventForm = ({ eventData, onSubmit }) => {
+//   const [formData, setFormData] = useState({
+//     title: "",
+//     link: "",
+//     details: "",
+//     image: "",
+//     location: "",
+//     status: "active",
+//     tags: [],
+//     startDate: "",
+//     endDate: "",
+//   });
+
+//   const predefinedTags = [
+//     "Technology",
+//     "Education",
+//     "Networking",
+//     "Leadership",
+//     "Innovation",
+//     "Career",
+//     "Other",
+//   ];
+
+//   // If eventData exists, set formData with the event data (for editing)
+//   useEffect(() => {
+//     if (eventData) {
+//       setFormData({
+//         title: eventData.title || "",
+//         link: eventData.link || "",
+//         details: eventData.details || "",
+//         image: eventData.image || null,
+//         location: eventData.location || "",
+//         status: eventData.status || "active",
+//         tags: eventData.tags || [],
+//         startDate: eventData.startDate || "",
+//         endDate: eventData.endDate || "",
+//       });
+//     }
+//   }, [eventData]);
+
+//   const handleTagInputChange = (e) => {
+//     const { value } = e.target;
+//     setFormData((prevData) => ({ ...prevData, tagInput: value }));
+//   };
+
+//   const handleTagSelect = (tag) => {
+//     if (!formData.tags.includes(tag)) {
+//       setFormData((prevData) => ({
+//         ...prevData,
+//         tags: [...prevData.tags, tag],
+//         tagInput: "", // Clear input field after selection
+//       }));
+//     }
+//   };
+
+//   const handleTagRemove = (tag) => {
+//     setFormData((prevData) => ({
+//       ...prevData,
+//       tags: prevData.tags.filter((t) => t !== tag),
+//     }));
+//   };
+
+//   const handleChange = (e) => {
+//     const { name, value } = e.target;
+//     setFormData((prevData) => ({ ...prevData, [name]: value }));
+//   };
+
+//   const handleFileChange = (e) => {
+//     const { name, files } = e.target;
+//     setFormData((prevData) => ({ ...prevData, [name]: files[0] }));
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     console.log(formData);
+
+//     try {
+//       // Call the onSubmit function (either create or update)
+
+//       await createEvent(formData);
+//     } catch (error) {
+//       console.error(error);
+//     }
+
+//     // Call the onSubmit function (either create or update)
+//   };
+
+//   return (
+//     <div className="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-lg shadow-xl">
+//       <h1 className="text-2xl font-semibold text-gray-800 mb-6">
+//         {eventData ? "Edit Your Campus Event" : "Register Your Campus Event"}
+//       </h1>
+//       <form onSubmit={handleSubmit} className="space-y-6">
+//         {/* Event Name */}
+//         <div className="space-y-2">
+//           <Label htmlFor="title">Event Title</Label>
+//           <Input
+//             id="title"
+//             name="title"
+//             value={formData.title}
+//             onChange={handleChange}
+//             className="w-full border border-gray-300 p-3 rounded-md shadow-sm"
+//             required={!!formData.title}
+//           />
+//         </div>
+
+//         {/* Event Details */}
+//         <div className="space-y-2">
+//           <Label htmlFor="details">Event Details</Label>
+//           <Textarea
+//             id="details"
+//             name="details"
+//             value={formData.details}
+//             onChange={handleChange}
+//             rows={4}
+//             className="w-full border border-gray-300 p-3 rounded-md shadow-sm"
+//             required={!!formData.details}
+//           />
+//         </div>
+
+//         {/* Event Start Date */}
+//         <div className="space-y-2">
+//           <Label htmlFor="startDate">Event Start Date</Label>
+//           <Input
+//             type="date"
+//             id="startDate"
+//             name="startDate"
+//             value={formData.startDate}
+//             onChange={handleChange}
+//             className="w-full border border-gray-300 p-3 rounded-md shadow-sm"
+//             required={!!formData.startDate}
+//           />
+//         </div>
+
+//         {/* Event End Date */}
+//         <div className="space-y-2">
+//           <Label htmlFor="endDate">Event End Date</Label>
+//           <Input
+//             type="date"
+//             id="endDate"
+//             name="endDate"
+//             value={formData.endDate}
+//             onChange={handleChange}
+//             className="w-full border border-gray-300 p-3 rounded-md shadow-sm"
+//             required={!!formData.endDate}
+//           />
+//         </div>
+
+//         {/* Event Location */}
+//         <div className="space-y-2">
+//           <Label htmlFor="location">Event Location</Label>
+//           <Input
+//             type="text"
+//             id="location"
+//             name="location"
+//             value={formData.location}
+//             onChange={handleChange}
+//             className="w-full border border-gray-300 p-3 rounded-md shadow-sm"
+//             required={!!formData.location}
+//           />
+//         </div>
+
+//         {/* Event Tags */}
+//         <div className="space-y-2">
+//           <Label htmlFor="tags">Event Tags</Label>
+//           <div className="flex flex-wrap space-x-2 mb-4">
+//             {formData.tags.map((tag) => (
+//               <span
+//                 key={tag}
+//                 className="bg-blue-600 text-white p-2 rounded-md cursor-pointer"
+//                 onClick={() => handleTagRemove(tag)}
+//               >
+//                 {tag} &times;
+//               </span>
+//             ))}
+//           </div>
+
+//           <div className="relative">
+//             <Input
+//               type="text"
+//               id="tags"
+//               name="tagInput"
+//               value={formData.tagInput}
+//               onChange={handleTagInputChange}
+//               placeholder="Type or select tags"
+//               className="w-full border border-gray-300 p-3 rounded-md shadow-sm"
+//             />
+//             <div className="absolute top-full left-0 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-md z-10">
+//               {formData.tagInput &&
+//                 predefinedTags
+//                   .filter((tag) =>
+//                     tag.toLowerCase().includes(formData.tagInput.toLowerCase())
+//                   )
+//                   .map((tag) => (
+//                     <div
+//                       key={tag}
+//                       className="px-4 py-2 cursor-pointer hover:bg-gray-200"
+//                       onClick={() => handleTagSelect(tag)}
+//                     >
+//                       {tag}
+//                     </div>
+//                   ))}
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* Event Link */}
+//         <div className="space-y-2">
+//           <Label htmlFor="link">Event Link</Label>
+//           <Input
+//             type="url"
+//             id="link"
+//             name="link"
+//             value={formData.link}
+//             onChange={handleChange}
+//             className="w-full border border-gray-300 p-3 rounded-md shadow-sm"
+//           />
+//         </div>
+
+//         {/* Event Image */}
+//         <div className="space-y-2">
+//           <Label htmlFor="image">Event Image</Label>
+//           <Input
+//             type="file"
+//             id="image"
+//             name="image"
+//             onChange={handleFileChange}
+//             className="w-full border border-gray-300 p-3 rounded-md shadow-sm"
+//           />
+//         </div>
+
+//         {/* Submit Button */}
+//         <Button
+//           type="submit"
+//           className="w-full text-white p-3 rounded-md shadow-md"
+//         >
+//           {eventData ? "Update Event" : "Create Event"}
+//         </Button>
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default CreateEventForm;
+
 import { useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { createEvent } from "@/services/eventService";
+import { getUser } from "@/services/authService";
 
 const CreateEventForm = ({ eventData, onSubmit }) => {
   const [formData, setFormData] = useState({
-    eventName: "",
-    eventDescription: "",
-    eventDate: "",
-    eventTime: "",
-    eventLocation: "",
-    eventType: "workshop",
-    eventOrganizer: "",
-    eventContactEmail: "",
-    eventWebsite: "",
-    eventPoster: null,
-    eventTags: [],
-    tagInput: "",
+    title: "",
+    link: "",
+    details: "",
+    image: "",
+    location: "",
+    status: "active",
+    tags: [],
+    startDate: "",
+    endDate: "",
   });
 
   const predefinedTags = [
@@ -34,33 +285,24 @@ const CreateEventForm = ({ eventData, onSubmit }) => {
   useEffect(() => {
     if (eventData) {
       setFormData({
-        eventName: eventData.eventName || "",
-        eventDescription: eventData.eventDescription || "",
-        eventDate: eventData.eventDate || "",
-        eventTime: eventData.eventTime || "",
-        eventLocation: eventData.eventLocation || "",
-        eventType: eventData.eventType || "workshop",
-        eventOrganizer: eventData.eventOrganizer || "",
-        eventContactEmail: eventData.eventContactEmail || "",
-        eventWebsite: eventData.eventWebsite || "",
-        eventPoster: eventData.eventPoster || null,
-        eventTags: eventData.eventTags || [],
-        tagInput: "", // Reset tag input
+        title: eventData.title || "",
+        link: eventData.link || "",
+        details: eventData.details || "",
+        image: eventData.image || null,
+        location: eventData.location || "",
+        status: eventData.status || "active",
+        tags: eventData.tags || [],
+        startDate: eventData.startDate || "",
+        endDate: eventData.endDate || "",
       });
     }
   }, [eventData]);
 
-  const handleTagInputChange = (e) => {
-    const { value } = e.target;
-    setFormData((prevData) => ({ ...prevData, tagInput: value }));
-  };
-
   const handleTagSelect = (tag) => {
-    if (!formData.eventTags.includes(tag)) {
+    if (!formData.tags.includes(tag)) {
       setFormData((prevData) => ({
         ...prevData,
-        eventTags: [...prevData.eventTags, tag],
-        tagInput: "", // Clear input field after selection
+        tags: [...prevData.tags, tag],
       }));
     }
   };
@@ -68,7 +310,7 @@ const CreateEventForm = ({ eventData, onSubmit }) => {
   const handleTagRemove = (tag) => {
     setFormData((prevData) => ({
       ...prevData,
-      eventTags: prevData.eventTags.filter((t) => t !== tag),
+      tags: prevData.tags.filter((t) => t !== tag),
     }));
   };
 
@@ -82,9 +324,18 @@ const CreateEventForm = ({ eventData, onSubmit }) => {
     setFormData((prevData) => ({ ...prevData, [name]: files[0] }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData); // Call the onSubmit function (either create or update)
+    console.log(formData);
+
+    try {
+      // Call the onSubmit function (either create or update)
+      await createEvent(formData);
+    } catch (error) {
+      console.error(error);
+    }
+
+    // Call the onSubmit function (either create or update)
   };
 
   return (
@@ -92,102 +343,82 @@ const CreateEventForm = ({ eventData, onSubmit }) => {
       <h1 className="text-2xl font-semibold text-gray-800 mb-6">
         {eventData ? "Edit Your Campus Event" : "Register Your Campus Event"}
       </h1>
+      <button onClick={getUser()}>Submit</button>
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Event Name */}
         <div className="space-y-2">
-          <Label htmlFor="event_name">Event Name</Label>
+          <Label htmlFor="title">Event Title</Label>
           <Input
-            id="event_name"
-            name="eventName"
-            value={formData.eventName}
+            id="title"
+            name="title"
+            value={formData.title}
             onChange={handleChange}
             className="w-full border border-gray-300 p-3 rounded-md shadow-sm"
-            required
+            required={!!formData.title}
           />
         </div>
 
-        {/* Event Description */}
+        {/* Event Details */}
         <div className="space-y-2">
-          <Label htmlFor="event_description">Event Description</Label>
+          <Label htmlFor="details">Event Details</Label>
           <Textarea
-            id="event_description"
-            name="eventDescription"
-            value={formData.eventDescription}
+            id="details"
+            name="details"
+            value={formData.details}
             onChange={handleChange}
             rows={4}
             className="w-full border border-gray-300 p-3 rounded-md shadow-sm"
-            required
+            required={!!formData.details}
           />
         </div>
 
-        {/* Event Date */}
+        {/* Event Start Date */}
         <div className="space-y-2">
-          <Label htmlFor="event_date">Event Date</Label>
+          <Label htmlFor="startDate">Event Start Date</Label>
           <Input
             type="date"
-            id="event_date"
-            name="eventDate"
-            value={formData.eventDate}
+            id="startDate"
+            name="startDate"
+            value={formData.startDate}
             onChange={handleChange}
             className="w-full border border-gray-300 p-3 rounded-md shadow-sm"
-            required
+            required={!!formData.startDate}
           />
         </div>
 
-        {/* Event Time */}
+        {/* Event End Date */}
         <div className="space-y-2">
-          <Label htmlFor="event_time">Event Time</Label>
+          <Label htmlFor="endDate">Event End Date</Label>
           <Input
-            type="time"
-            id="event_time"
-            name="eventTime"
-            value={formData.eventTime}
+            type="date"
+            id="endDate"
+            name="endDate"
+            value={formData.endDate}
             onChange={handleChange}
             className="w-full border border-gray-300 p-3 rounded-md shadow-sm"
-            required
+            required={!!formData.endDate}
           />
         </div>
 
         {/* Event Location */}
         <div className="space-y-2">
-          <Label htmlFor="event_location">Event Location</Label>
+          <Label htmlFor="location">Event Location</Label>
           <Input
             type="text"
-            id="event_location"
-            name="eventLocation"
-            value={formData.eventLocation}
+            id="location"
+            name="location"
+            value={formData.location}
             onChange={handleChange}
             className="w-full border border-gray-300 p-3 rounded-md shadow-sm"
-            required
+            required={!!formData.location}
           />
-        </div>
-
-        {/* Event Type */}
-        <div className="space-y-2">
-          <Label htmlFor="event_type">Event Type</Label>
-          <select
-            id="event_type"
-            name="eventType"
-            value={formData.eventType}
-            onChange={handleChange}
-            className="w-full border border-gray-300 p-3 rounded-md shadow-sm"
-            required
-          >
-            <option value="workshop">Workshop</option>
-            <option value="seminar">Seminar</option>
-            <option value="conference">Conference</option>
-            <option value="hackathon">Hackathon</option>
-            <option value="webinar">Webinar</option>
-            <option value="competition">Competition</option>
-            <option value="other">Other</option>
-          </select>
         </div>
 
         {/* Event Tags */}
         <div className="space-y-2">
-          <Label htmlFor="event_tags">Event Tags</Label>
+          <Label htmlFor="tags">Event Tags</Label>
           <div className="flex flex-wrap space-x-2 mb-4">
-            {formData.eventTags.map((tag) => (
+            {formData.tags.map((tag) => (
               <span
                 key={tag}
                 className="bg-blue-600 text-white p-2 rounded-md cursor-pointer"
@@ -198,76 +429,53 @@ const CreateEventForm = ({ eventData, onSubmit }) => {
             ))}
           </div>
 
-          <div className="relative">
-            <Input
-              type="text"
-              id="event_tags"
-              name="tagInput"
-              value={formData.tagInput}
-              onChange={handleTagInputChange}
-              placeholder="Type or select tags"
-              className="w-full border border-gray-300 p-3 rounded-md shadow-sm"
-            />
-            <div className="absolute top-full left-0 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-md z-10">
-              {formData.tagInput &&
-                predefinedTags
-                  .filter((tag) =>
-                    tag.toLowerCase().includes(formData.tagInput.toLowerCase())
-                  )
-                  .map((tag) => (
-                    <div
-                      key={tag}
-                      className="px-4 py-2 cursor-pointer hover:bg-gray-200"
-                      onClick={() => handleTagSelect(tag)}
-                    >
-                      {tag}
-                    </div>
-                  ))}
-            </div>
+          <div className="flex flex-wrap space-x-2">
+            {predefinedTags.map((tag) => (
+              <span
+                key={tag}
+                className={`${
+                  formData.tags.includes(tag)
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-200 text-gray-700"
+                } p-2 rounded-md cursor-pointer`}
+                onClick={() => handleTagSelect(tag)}
+              >
+                {tag}
+              </span>
+            ))}
           </div>
         </div>
 
-        {/* Organizer Email */}
+        {/* Event Link */}
         <div className="space-y-2">
-          <Label htmlFor="event_contact_email">Organizer Email</Label>
-          <Input
-            type="email"
-            id="event_contact_email"
-            name="eventContactEmail"
-            value={formData.eventContactEmail}
-            onChange={handleChange}
-            className="w-full border border-gray-300 p-3 rounded-md shadow-sm"
-            required
-          />
-        </div>
-
-        {/* Event Website */}
-        <div className="space-y-2">
-          <Label htmlFor="event_website">Event Website (Optional)</Label>
+          <Label htmlFor="link">Event Link</Label>
           <Input
             type="url"
-            id="event_website"
-            name="eventWebsite"
-            value={formData.eventWebsite}
+            id="link"
+            name="link"
+            value={formData.link}
             onChange={handleChange}
             className="w-full border border-gray-300 p-3 rounded-md shadow-sm"
           />
         </div>
 
-        {/* Event Poster */}
+        {/* Event Image */}
         <div className="space-y-2">
-          <Label htmlFor="event_poster">Event Poster (Optional)</Label>
+          <Label htmlFor="image">Event Image</Label>
           <Input
             type="file"
-            id="event_poster"
-            name="eventPoster"
+            id="image"
+            name="image"
             onChange={handleFileChange}
             className="w-full border border-gray-300 p-3 rounded-md shadow-sm"
           />
         </div>
 
         {/* Submit Button */}
-        <Button type="submit" className="w-full text-white p-3 rounded-md shadow-md">
+        <Button
+          type="submit"
+          className="w-full text-white p-3 rounded-md shadow-md"
+        >
           {eventData ? "Update Event" : "Create Event"}
         </Button>
       </form>
