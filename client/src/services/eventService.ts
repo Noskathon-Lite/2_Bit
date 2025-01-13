@@ -71,3 +71,23 @@ export const getAllEvents = async () => {
   }
 };
 
+
+export const getEventById = async (eventId: string) => {
+  return axiosInstance
+    .get(`/event/${eventId}`) // Pass the eventId as a path parameter
+    .then((response) => {
+      const { data } = response;
+      console.log("Event fetched by ID:", data); // Log the fetched event data
+
+      // Assuming the API response structure has the event data under `data.result`
+      if (data && data.result) {
+        return data.result; // Return the event data
+      } else {
+        throw new Error("Event not found");
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching event:", error);
+      throw error; // Handle error
+    });
+};
