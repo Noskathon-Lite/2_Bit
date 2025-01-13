@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Search, Filter } from "lucide-react";
-import EventList from "../EventList";
 import Logout from "../Logout";
 
 // Sample data for tags and events
@@ -45,21 +44,37 @@ const sampleEvents = [
   },
 ];
 
-// User Dashboard Component
+// EventList Component
+const EventList = ({ events }) => (
+  <div>
+    {events.length === 0 ? (
+      <p>No registered events found.</p>
+    ) : (
+      events.map((event) => (
+        <div key={event.id} className="p-2 border-b">
+          <h3 className="font-semibold">{event.title}</h3>
+          <p>{event.date}</p>
+        </div>
+      ))
+    )}
+  </div>
+);
+// UserDashboard Component
 const UserDashboard = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTags, setSelectedTags] = useState([]);
   const [events, setEvents] = useState(sampleEvents);
   const [registeredEvents, setRegisteredEvents] = useState([]);
   const [viewRegisteredEvents, setViewRegisteredEvents] = useState(false);
 
-  const handleTagClick = (tag: string) => {
+  const handleTagClick = (tag) => {
     setSelectedTags((prev) =>
       prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
     );
   };
 
-  const handleRegister = (event: any) => {
+  const handleRegister = (event) => {
     setRegisteredEvents((prev) => [...prev, event]);
   };
 
@@ -101,10 +116,13 @@ const UserDashboard = () => {
             <Filter className="h-4 w-4 mr-2" />
             Filters
           </Button>
-          {/* Footer with Logout Button */}
-          <div className="mt-auto py-4">
-            <Logout />
-          </div>
+          <Button
+            onClick={() => navigate("/user-profile")}
+            className="bg-green-600 text-white hover:bg-green-700 px-6 py-2 rounded"
+          >
+            View Profile
+          </Button>
+          <Logout />
         </div>
       </div>
 
@@ -121,7 +139,6 @@ const UserDashboard = () => {
         ))}
       </div>
 
-      {/* View Registered Events Card */}
       <div className="cursor-pointer" onClick={handleViewRegisteredEvents}>
         <Card className="border-2 p-4 mt-6 bg-green-100 hover:bg-green-200">
           <CardHeader>
@@ -136,11 +153,9 @@ const UserDashboard = () => {
               ? "Click here to go back to view all events."
               : "Click here to view your registered events."}
           </CardContent>
-          {viewRegisteredEvents && <EventList />}
         </Card>
       </div>
 
-      {/* Display filtered events */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredEvents.map((event) => (
           <Card key={event.id}>
@@ -163,12 +178,12 @@ const UserDashboard = () => {
                   </Badge>
                 ))}
               </div>
-              <Link
-                to={`/event/${event.id}`}
-                className="hover:bg-green-700 text-white"
+              <Button
+                onClick={() => handleRegister(event)}
+                className="w-full mt-4"
               >
-                <Button className="w-full mt-4">View More</Button>
-              </Link>
+                Register
+              </Button>
             </CardContent>
           </Card>
         ))}

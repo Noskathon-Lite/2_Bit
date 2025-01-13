@@ -18,6 +18,7 @@ import PrivacyPolicy from "./components/pages/PrivacyPolicy";
 import TermsAndConditions from "./components/pages/TermsAndCondition";
 import CookiePolicy from "./components/pages/CookiePolicy";
 import SuccessPage from "./components/pages/SuccessPage";
+import UserProfile from "./components/pages/UserProfile";
 
 const App = () => {
   return (
@@ -62,6 +63,7 @@ const App = () => {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="/cookie-policy" element={<CookiePolicy />} />
+        <Route path="/user-profile" element={<UserProfile />} />
       </Routes>
     </Router>
   );
