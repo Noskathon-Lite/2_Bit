@@ -6,17 +6,17 @@ const AboutUs: React.FC = () => {
     <div>
       <Header showLoginButton={false} />
 
-      {/* Image below the header */}
-      <div className="w-full">
+      {/* Image Section */}
+      <section className="w-full">
         <img
           src="/campus.jpg"
           alt="About Us Banner"
           className="w-full h-[50vh] object-cover"
         />
-      </div>
+      </section>
 
       {/* Mission Section */}
-      <div className="container mx-auto p-8 mb-0">
+      <section className="container mx-auto p-8 mb-0" id="mission">
         <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
         <p className="mb-4">
           Our mission is to connect students with the exciting events happening
@@ -24,20 +24,20 @@ const AboutUs: React.FC = () => {
           participate in activities that interest them. We also try to make it
           easier for the organizers to reach out to a larger audience.
         </p>
-      </div>
+      </section>
 
       {/* Vision Section */}
-      <div className="container mx-auto p-8 mb-8">
+      <section className="container mx-auto p-8 mb-8">
         <h2 className="text-2xl font-bold mb-4">Our Vision</h2>
         <p className="mb-4">
           We envision a campus where every student is actively engaged in the
           events that shape their college experience, enriching their time at
           university.
         </p>
-      </div>
+      </section>
 
       {/* Team Section */}
-      <div className="container mx-auto p-8 mb-8">
+      <section className="container mx-auto p-8 mb-8" id="team">
         <h2 className="text-2xl font-bold mb-4">Meet Our Team</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="text-center">
@@ -73,10 +73,10 @@ const AboutUs: React.FC = () => {
             <h3 className="font-semibold">Aakriti Dahal</h3>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Timeline Section */}
-      <div className="container mx-auto p-8 mb-8">
+      <section className="container mx-auto p-8 mb-8" id="history">
         <h2 className="text-2xl font-bold mb-4">Our Journey</h2>
         <ul className="space-y-4">
           <li className="flex items-center">
@@ -92,10 +92,10 @@ const AboutUs: React.FC = () => {
             Open Source Project
           </li>
         </ul>
-      </div>
+      </section>
 
       {/* Testimonials Section */}
-      <div className="container mx-auto p-8 mb-8">
+      <section className="container mx-auto p-8 mb-8">
         <h2 className="text-2xl font-bold mb-4">What Our Users Say</h2>
         <div className="space-y-4">
           <blockquote className="italic">
@@ -109,10 +109,10 @@ const AboutUs: React.FC = () => {
           </blockquote>
           <cite>- IT Club of Balkumari</cite>
         </div>
-      </div>
+      </section>
 
       {/* Call to Action */}
-      <div className="container mx-auto p-8 text-center mb-8">
+      <section className="container mx-auto p-8 text-center mb-8">
         <h2 className="text-2xl font-bold mb-4">Join Us Today!</h2>
         <p className="mb-4">
           Stay updated and participate in exciting campus events. Become a part
@@ -124,7 +124,7 @@ const AboutUs: React.FC = () => {
         >
           Get Started
         </a>
-      </div>
+      </section>
     </div>
   );
 };
