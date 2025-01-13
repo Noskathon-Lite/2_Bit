@@ -1,5 +1,5 @@
 // src/components/LoginForm.js
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,12 +13,22 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { login } from "@/services/authService";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/home");
+    }
+  }, []);
 
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -53,9 +63,11 @@ const Login = () => {
 
     // Simulate API call
     try {
-      
       await login({ email, password }); // Attempt to log in
       console.log(email, password);
+      if (login) {
+        navigate("/home");
+      }
       // Handle success if needed (e.g., redirect to dashboard)
     } catch (err) {
       setError("An error occurred during login"); // Catch any error during login

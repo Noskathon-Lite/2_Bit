@@ -257,8 +257,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { createEvent } from "@/services/eventService";
 import { getUser } from "@/services/authService";
+import { useAuth } from "@/context/AuthContext";
+import { Link } from "react-router-dom";
 
 const CreateEventForm = ({ eventData, onSubmit }) => {
+  const { userType } = useAuth();
   const [formData, setFormData] = useState({
     title: "",
     link: "",
@@ -337,6 +340,15 @@ const CreateEventForm = ({ eventData, onSubmit }) => {
 
     // Call the onSubmit function (either create or update)
   };
+
+  if (userType) {
+    return (
+      <div>
+        <h1>You are not authorized to view this page</h1>
+        {/* <Link to="/home">Go back to the home page</Link> */}
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto mt-10 bg-white p-8 rounded-lg shadow-xl">

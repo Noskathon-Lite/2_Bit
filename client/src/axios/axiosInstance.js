@@ -11,9 +11,7 @@ const axiosInstance = axios.create({
 // Optionally, intercept requests to add the auth token
 axiosInstance.interceptors.request.use(
   (config) => {
-    // const token = localStorage.getItem("authToken"); // or use a context/state management solution
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2Nzg0OGNkYmFhNGJjM2Y4NGRkNDYwYzQiLCJpYXQiOjE3MzY3NDAxNzZ9.-mPnHn2twLiOyRdCiqbYuFHcPKJl9wE2kihwE18dOlY.XA5mKz0tavp1buGTLGHnuisDRXsIBRxPfwIHJgCkQJg";
+    const token = localStorage.getItem("authToken"); // or use a context/state management solution
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
 
