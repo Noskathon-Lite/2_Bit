@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { statustype } = require("../../config/constant.config");
+const { optional } = require("joi");
 const eventschema = new mongoose.Schema(
   {
     title: {
@@ -18,7 +19,6 @@ const eventschema = new mongoose.Schema(
     },
     image: {
       type: String,
-      required: true,
     },
     link: {
       type: String,
@@ -34,10 +34,12 @@ const eventschema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        default: [],
       },
     ],
-
+    tag: {
+      type: [String],
+      default: ["all"],
+    },
     startDate: Date,
     endDate: Date,
     createdBy: {
@@ -58,5 +60,4 @@ const eventschema = new mongoose.Schema(
   }
 );
 
-const eventmodel = mongoose.model("Event", eventschema);
-module.exports = eventmodel;
+module.exports = mongoose.model("Event", eventschema);
