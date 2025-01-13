@@ -111,7 +111,7 @@ class eventservice {
           registeredStudents: new mongoose.Types.ObjectId(userId),
         }) //"location",
         .populate("createdBy", [
-          "tittles",
+          "titles",
           "details",
           "link",
           "startDate",
